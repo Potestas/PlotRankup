@@ -2,19 +2,20 @@ package com.empcraft.approval;
 
 import java.util.UUID;
 
+import com.intellectualcrafters.plot.object.PlotArea;
 import com.intellectualcrafters.plot.object.PlotId;
 
 public class PlotWrapper implements Comparable<PlotWrapper> {
 
-    Long timestamp;
-    PlotId id;
-    String world;
-    UUID owner;
+    private Long timestamp;
+    private PlotId id;
+    private PlotArea plotArea;
+    private UUID owner;
 
-    public PlotWrapper(final Long timestamp, final PlotId id, final String world, final UUID owner) {
+    public PlotWrapper(final Long timestamp, final PlotId id, final PlotArea plotArea, final UUID owner) {
         this.timestamp = timestamp;
         this.id = id;
-        this.world = world;
+        this.plotArea = plotArea;
         this.owner = owner;
     }
 
@@ -35,7 +36,7 @@ public class PlotWrapper implements Comparable<PlotWrapper> {
             return false;
         }
         final PlotWrapper other = (PlotWrapper) obj;
-        return ((this.id.x == other.id.x) && (this.id.y == other.id.y) && (this.world.equals(other.world)));
+        return ((this.id.x == other.id.x) && (this.id.y == other.id.y) && (this.plotArea.equals(other.plotArea)));
     }
 
     @Override
@@ -44,7 +45,19 @@ public class PlotWrapper implements Comparable<PlotWrapper> {
         int result = 1;
         result = (prime * result) + this.id.x;
         result = (prime * result) + this.id.y;
-        result = (prime * result) + this.world.hashCode();
+        result = (prime * result) + this.plotArea.hashCode();
         return result;
+    }
+    public UUID getOwner(){
+    	return owner;
+    }
+    public PlotArea getPlotArea(){
+    	return plotArea;
+    }
+    public PlotId getPlotId(){
+    	return id;
+    }
+    public Long getTimestamp(){
+    	return timestamp;
     }
 }

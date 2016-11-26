@@ -5,4 +5,47 @@
   <version>2.0-SNAPSHOT</version>
   <name>PlotRankup</name>
   <description>Ranking system for PlotSquared</description>
+  <repositories>
+    <repository>
+        <id>spigot-repo</id>
+        <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+    </repository>
+    <repository>
+        <id>plots</id>
+        <url>https://ci.potestas.xyz/plugin/repository/everything/</url>
+    </repository>
+    <repository>
+    	<id>vault-repo</id>
+    	<url>http://nexus.hc.to/content/repositories/pub_releases/</url>
+    </repository>
+</repositories>
+<dependencies>
+    <!--Spigot API-->
+    <dependency>
+           <groupId>org.spigotmc</groupId>
+           <artifactId>spigot-api</artifactId>
+           <version>1.11-R0.1-SNAPSHOT</version>
+           <scope>provided</scope>
+    </dependency>
+    <!--Bukkit API-->
+    <dependency>
+            <groupId>org.bukkit</groupId>
+            <artifactId>bukkit</artifactId>
+            <version>1.11-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+    </dependency>
+    <!--PlotSquared-->
+    <dependency>
+            <groupId>com.intellectualcrafters</groupId>
+            <artifactId>PlotSquared</artifactId>
+            <version>3.4.6-SNAPSHOT</version>
+            <scope>provided</scope>
+    </dependency>
+    <dependency>
+    		<groupId>net.milkbowl.vault</groupId>
+    		<artifactId>Vault</artifactId>
+    		<version>1.6.6</version>
+    		<scope>provided</scope>
+    </dependency>
+</dependencies>
 </project>
