@@ -76,7 +76,7 @@ public class DoneCommand extends SubCommand {
 							}
 						}
 						FlagManager.addPlotFlag(plot, flagTimestamp, (System.currentTimeMillis() / 1000));
-						FlagManager.addPlotFlag(plot, flagDone, null);
+						FlagManager.addPlotFlag(plot, flagDone, false);
 						MainUtil.sendMessage(player,
 								"&7Your plot has been marked as &adone&7 and should be approved shortly.");
 					} else {

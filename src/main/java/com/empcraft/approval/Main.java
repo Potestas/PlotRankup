@@ -29,7 +29,6 @@ import com.intellectualcrafters.plot.PS;
 import com.intellectualcrafters.plot.api.PlotAPI;
 import com.intellectualcrafters.plot.commands.MainCommand;
 import com.intellectualcrafters.plot.flag.BooleanFlag;
-import com.intellectualcrafters.plot.flag.Flags;
 import com.intellectualcrafters.plot.flag.LongFlag;
 import com.intellectualcrafters.plot.object.Plot;
 import com.intellectualcrafters.plot.object.PlotPlayer;
@@ -167,15 +166,14 @@ public class Main extends JavaPlugin implements Listener {
 
 		};
 		api.addFlag(flagDone);
-		Flags.registerFlag(flagDone);
-
 		flagTimestamp = new LongFlag("timestamp") {
 
 			@Override
 			public Long parseValue(final String value) {
 				final Long n = Long.parseLong(value);
-                return n;
+				return n;
 			}
+
 			@Override
 			public String getValueDescription() {
 				return "This flag is set by the server";
@@ -187,18 +185,17 @@ public class Main extends JavaPlugin implements Listener {
 			}
 		};
 		api.addFlag(flagTimestamp);
-		Flags.registerFlag(flagTimestamp);
 	}
 
 	@EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
 	private static void onBlockPlace(final BlockPlaceEvent event) {
 		final Player player = event.getPlayer();
 		final String world = player.getWorld().getName();
-		if (!PS.get().isPlotWorld(world)) {
+		if (!PS.get().hasPlotArea(world)) {
 			return;
 		}
 		final Location loc = event.getBlock().getLocation();
-		if (interactWith(player, world, loc)) {
+		if (isAllowedToInteract(player, world, loc)) {
 			event.setCancelled(true);
 		}
 	}
@@ -207,11 +204,11 @@ public class Main extends JavaPlugin implements Listener {
 	private static void onBlockBreak(final BlockBreakEvent event) {
 		final Player player = event.getPlayer();
 		final String world = player.getWorld().getName();
-		if (!PS.get().isPlotWorld(world)) {
+		if (!PS.get().hasPlotArea(world)) {
 			return;
 		}
 		final Location loc = event.getBlock().getLocation();
-		if (interactWith(player, world, loc)) {
+		if (isAllowedToInteract(player, world, loc)) {
 			event.setCancelled(true);
 		}
 	}
@@ -220,7 +217,7 @@ public class Main extends JavaPlugin implements Listener {
 	private static void onInteract(final PlayerInteractEvent event) {
 		final Player player = event.getPlayer();
 		final String world = player.getWorld().getName();
-		if (!PS.get().isPlotWorld(world)) {
+		if (!PS.get().hasPlotArea(world)) {
 			return;
 		}
 		final Block block = event.getClickedBlock();
@@ -228,7 +225,7 @@ public class Main extends JavaPlugin implements Listener {
 			return;
 		}
 		final Location loc = block.getLocation();
-		if (interactWith(player, world, loc)) {
+		if (isAllowedToInteract(player, world, loc)) {
 			event.setCancelled(true);
 		}
 	}
@@ -247,7 +244,7 @@ public class Main extends JavaPlugin implements Listener {
 		}
 	}
 
-	private static boolean interactWith(final Player player, final String world, final Location loc) {
+	private static boolean isAllowedToInteract(final Player player, final String world, final Location loc) {
 		com.intellectualcrafters.plot.object.Location loc1 = new com.intellectualcrafters.plot.object.Location();
 		loc1.setX(loc.getBlockX());
 		loc1.setY(loc.getBlockY());
@@ -270,15 +267,11 @@ public class Main extends JavaPlugin implements Listener {
 		}
 		if (flagDone.isTrue(plot)) {
 			if (!config.getBoolean("build-while-approved")) {
-				if (!flagDone.isTrue(plot)) {
-					sendMessage(player,
-							"&7Your plot has been marked as done. To remove it from the queue and continue building please use:\n&a/plots continue");
-				} else {
-					sendMessage(player,
-							"&7Your plot has been approved. To continue building, please get an admin to unapprove the plot.");
-				}
-				return true;
+				sendMessage(player, "&7Your plot has been marked as done. To remove it from the queue and continue building please use:\n&a/plots continue");
+			} else {
+				sendMessage(player, "&7Your plot has been approved. To continue building, please get an admin to unapprove the plot.");
 			}
+			return true;
 		}
 		return false;
 	}
