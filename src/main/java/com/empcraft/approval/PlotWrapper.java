@@ -19,7 +19,6 @@ public class PlotWrapper implements Comparable<PlotWrapper> {
         this.owner = owner;
     }
 
-    @Override
     public int compareTo(final PlotWrapper other) {
         return (int) (this.timestamp == other.timestamp ? this.id.x - other.id.x : other.timestamp - this.timestamp);
     }
